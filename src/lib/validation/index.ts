@@ -12,6 +12,8 @@ export class BasicSchema {
   protected _required: boolean = false;
   protected _requiredParams?: BasicSchemaParameters = undefined;
 
+  protected _customValidation?: ValidationFunction;
+
   protected _validationSteps: ValidationFunction[] = [
     (value) =>
       !this._required ||
@@ -21,6 +23,11 @@ export class BasicSchema {
           BasicSchema.defaultErrorMessages.required,
       ),
   ];
+
+  customValidation(cb: ValidationFunction) {
+    this.pushValidation(cb);
+    return this;
+  }
 
   required(additionalParams?: BasicSchemaParameters) {
     this._required = true;
